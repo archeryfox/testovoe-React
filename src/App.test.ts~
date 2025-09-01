@@ -1,0 +1,20 @@
+import { render, screen, fireEvent } from "@testing-library/react";
+import App from "./App";
+
+test("добавление новой задачи", () => {
+    render(App);
+    const input = screen.getByPlaceholderText("What needs to be done?");
+    fireEvent.change(input, { target: { value: "Тестовое задание" } });
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
+    expect(screen.getByText("Тестовое задание")).toBeInTheDocument();
+});
+
+test("переключение статуса задачи", () => {
+    render(App);
+    const input = screen.getByPlaceholderText("What needs to be done?");
+    fireEvent.change(input, { target: { value: "Прекрасный код" } });
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+    expect(screen.getByText("Прекрасный код")).toHaveStyle("text-decoration: line-through");
+});
